@@ -57,6 +57,27 @@ class Company {
         return companiesRes.rows;
     }
 
+    /** Find all companies that contains query string passed in.
+     *
+     * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
+     * */
+
+    static async findAllLike(partialMatch) {
+        console.log(partialMatch);
+        const companiesRes = await db.query(
+            `SELECT handle,
+                  name,
+                  description,
+                  num_employees AS "numEmployees",
+                  logo_url AS "logoUrl"
+           FROM companies
+           WHERE name ILIKE $1
+           ORDER BY name`,
+            ["%" + partialMatch + "%"]
+        );
+        return companiesRes.rows;
+    }
+
     /** Given a company handle, return data about company.
      *
      * Returns { handle, name, description, numEmployees, logoUrl, jobs }
