@@ -6,7 +6,11 @@ const { BadRequestError } = require("../expressError");
  * @param  dataToUpdate {Object} user passes in fields to update{field1: newVal,field2:newVal, ...}
  * @param  jsToSql {object} maps js style data fields to database column names. e.g. { firstName: "first_name", age: "age" }
  * @returns {Object} {SQL column names separated by commas,values}
- * e.g {["first_name=$1","last_name=$2"], ["John", "Doe"]}
+ * e.g sample input: sqlForPartialUpdate({firstName: 'Aliya', age: 32},{
+            numEmployees: "num_employees",
+            logoUrl: "logo_url",
+        })
+ * output: {'"firstName"=$1, "age"=$2', ['Aliya', 32]}
  */
 
 function sqlForPartialUpdate(dataToUpdate, jsToSql) {
