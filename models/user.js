@@ -204,6 +204,18 @@ class User {
 
         if (!user) throw new NotFoundError(`No user: ${username}`);
     }
+
+    /** Mark user applied to job / submitted application*/
+
+    static async apply(username, jobId) {
+        let application = await db.query(
+            `INSERT INTO applications (username,job_id) VALUES ($1,$2)`,
+            [username, jobId]
+        );
+
+        if (!application)
+            throw new NotFoundError(`Invalid ${username} or ${jobId}`);
+    }
 }
 
 module.exports = User;
